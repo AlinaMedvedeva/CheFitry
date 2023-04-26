@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Project2.0</string>
+    <string name="breakfast">Завтрак</string>
+    <string name="lunch">Обед</string>
+    <string name="dinner">Ужин</string>
+    <string name="norma">Норма</string>
+    <string name="welcome">Добро пожаловать!</string>
+</resources>
