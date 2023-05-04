@@ -52,14 +52,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addLunch(View view) {
-        Intent i = new Intent(MainActivity.this, AddActivity.class);
-        i.putExtra(KEY, "Обед");
-        startActivity(i);;
+        //Intent i = new Intent(MainActivity.this, AddActivity.class);
+        //i.putExtra(KEY, "Обед");
+        //startActivity(i);;
     }
 
     public void addDinner(View view) {
-        Intent i = new Intent(MainActivity.this, AddActivity.class);
-        i.putExtra(KEY, "Ужин");
-        startActivity(i);
+        //Intent i = new Intent(MainActivity.this, AddActivity.class);
+        //i.putExtra(KEY, "Ужин");
+        //startActivity(i);
     }
 }

@@ -2,7 +2,6 @@ package com.example.project20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,19 +23,19 @@ import java.util.LinkedList;
 
 public class AddActivity extends AppCompatActivity {
 
-    public static final String ADDKEY = "Hello";
-    ProductDataBase myDataBase;
-    SQLiteDatabase sdb;
-    Cursor cursor;
     EditText search;
     ListView lw;
-    Button addProduct;
-    LinkedList<HashMap<String, Object>> adapterProductList = new LinkedList<>();
     SimpleAdapter adapter;
+    Cursor cursor;
+    Button addProduct;
+    ProductDataBase myDataBase;
+    SQLiteDatabase sdb;
+    LinkedList<HashMap<String, Object>> adapterProductList = new LinkedList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
         String s = getIntent().getStringExtra(MainActivity.KEY);
 
         search = findViewById(R.id.search);
@@ -95,20 +94,5 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    public String Obrez(String s)
-    {
-        String s1 = "";
-        boolean flag = false;
-        for (int i = 0; i < s.length() - 1; i++) {
-            if(flag)
-            {
-                s1 += s.charAt(i);
-            }
-            if(s.charAt(i) == '=')
-                flag = true;
-        }
-        return s1;
     }
 }

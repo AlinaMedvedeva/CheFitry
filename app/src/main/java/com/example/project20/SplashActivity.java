@@ -23,7 +23,8 @@ public class SplashActivity extends AppCompatActivity {
 
         logo = findViewById(R.id.welcome);
         sharedPreferences = getSharedPreferences("myShared", MODE_PRIVATE);
-        proverka = sharedPreferences.getString("Имя", "Нет");
+        proverka = sharedPreferences.getString("Вес", "Нет");
+        //если нет данных о человеке, переходим в регистрацию
         if(proverka != "Нет")
         {
             logo.append("\n" + sharedPreferences.getString("Имя", "Нет"));
@@ -34,19 +35,19 @@ public class SplashActivity extends AppCompatActivity {
         logoAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                if(proverka == "Нет") {
-                    //i = new Intent(SplashActivity.this, Registration.class);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(proverka == "Нет")
+                {
+                    i = new Intent(SplashActivity.this, Registration.class);
                 }
                 else {
                     i = new Intent(SplashActivity.this, MainActivity.class);
                 }
                 startActivity(i);
-                finish();
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
             }
 
             @Override
