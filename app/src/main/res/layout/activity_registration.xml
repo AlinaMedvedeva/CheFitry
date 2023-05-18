@@ -1,46 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Registration"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/fon">
 
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Имя"
-        android:id="@+id/name_regist"
-        android:textSize="24sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Вес"
-        android:id="@+id/weight_regist"
-        android:textSize="24sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Рост"
-        android:id="@+id/height_regist"
-        android:textSize="24sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Дата рождения"
-        android:id="@+id/date_regist"
-        android:textSize="24sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Пол"
-        android:id="@+id/gender_regist"
-        android:textSize="24sp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:layout_marginHorizontal="50dp"
+        android:id="@+id/RL_registration"
+        android:padding="20dp"
+        android:background="@color/white">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Имя"
+            android:id="@+id/name_regist"
+            android:textSize="20sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Вес"
+            android:id="@+id/weight_regist"
+            android:textSize="20sp"
+            android:layout_below="@+id/name_regist"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Рост"
+            android:id="@+id/height_regist"
+            android:textSize="20sp"
+            android:layout_below="@+id/weight_regist"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Дата рождения"
+            android:id="@+id/date_regist"
+            android:textSize="20sp"
+            android:layout_below="@+id/height_regist"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JAN 01 2020"
+            android:textSize="26sp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            style="@android:style/Widget.Material.Light.DropDownItem.Spinner"
+            android:layout_below="@+id/date_regist"
+            android:id="@+id/button_date"
+            android:onClick="openDatePicker"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/women_gender"
+            android:text="Ж"
+            android:textColor="@color/black"
+            android:backgroundTint="#FFFFFF"
+            android:layout_below="@+id/button_date"
+            android:textSize="20sp"
+            android:onClick="womenGender"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/men_gender"
+            android:text="М"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:layout_below="@+id/button_date"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"
+            android:onClick="menGender"/>
+    </RelativeLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/RL_registration"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:text="Зарегистрироваться"
-        android:onClick="toRegistration"/>
-</LinearLayout>
+        android:layout_margin="10dp"
+        android:background="@drawable/buttonshape"
+        android:onClick="toRegistration"
+        android:text="Зарегистрироваться" />
+</RelativeLayout>

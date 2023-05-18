@@ -15,7 +15,9 @@ public class CalendarDataBase extends SQLiteOpenHelper {
     private static String DB_NAME = "Calendar.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
-
+    public static  final String [] TABLES_NAME = {"breakfast",
+        "lunch", "dinner"};
+    public static final String TABLE_DAY = "days";
     private SQLiteDatabase mDataBase;
     private final Context mContext;
     private boolean mNeedUpdate = false;

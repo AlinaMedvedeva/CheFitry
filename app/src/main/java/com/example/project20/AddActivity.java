@@ -2,6 +2,7 @@ package com.example.project20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,13 +31,16 @@ public class AddActivity extends AppCompatActivity {
     Button addProduct;
     ProductDataBase myDataBase;
     SQLiteDatabase sdb;
+    public final static String ADDKEY = "Product";
+    public final static String KEY = "Hello";
+    String MainKey;
     LinkedList<HashMap<String, Object>> adapterProductList = new LinkedList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        String s = getIntent().getStringExtra(MainActivity.KEY);
+        MainKey = getIntent().getStringExtra(MainActivity.KEY);
 
         search = findViewById(R.id.search);
         lw = findViewById(R.id.list_products);
@@ -72,10 +76,12 @@ public class AddActivity extends AppCompatActivity {
         lw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String s = parent.getAdapter().getItem(position).toString();
-                //Intent i = new Intent(AddActivity.this, ProductActivity.class);
-                //i.putExtra(ADDKEY, Obrez(s));
-                //startActivity(i);
+                String s = parent.getAdapter().getItem(position).toString();
+                Intent i = new Intent(AddActivity.this, ProductActivity.class);
+                i.putExtra(ADDKEY, Obrez(s));
+                i.putExtra(KEY, MainKey);
+                cursor.close();
+                startActivity(i);
             }
         });
         search.addTextChangedListener(new TextWatcher() {
@@ -94,5 +100,27 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void AddNewProduct(View view) {
+        Intent i = new Intent(AddActivity.this, NewProductActivity.class);
+        cursor.close();
+        startActivity(i);
+        finish();
+    }
+
+    public String Obrez(String s)
+    {
+        String s1 = "";
+        boolean flag = false;
+        for (int i = 0; i < s.length() - 1; i++) {
+            if(flag)
+            {
+                s1 += s.charAt(i);
+            }
+            if(s.charAt(i) == '=')
+                flag = true;
+        }
+        return s1;
     }
 }

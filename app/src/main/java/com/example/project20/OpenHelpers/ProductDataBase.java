@@ -15,7 +15,12 @@ public class ProductDataBase extends SQLiteOpenHelper {
     private static String DB_NAME = "table_kalor.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
-
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_BELKI = "belki";
+    public static final String COLUMN_JIR = "jir";
+    public static final String COLUMN_UGLEVOD = "uglevod";
+    public static final String COLUMN_KALOR = "kalor";
+    public static final String TABLE_NAME = "table_kalor";
     private SQLiteDatabase mDataBase;
     private final Context mContext;
     private boolean mNeedUpdate = false;

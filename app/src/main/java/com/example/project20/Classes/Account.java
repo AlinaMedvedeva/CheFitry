@@ -2,6 +2,8 @@ package com.example.project20.Classes;
 
 import android.content.SharedPreferences;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Account {
@@ -11,7 +13,7 @@ public class Account {
     String date;
     String gender;
     int birth;
-    double norma;
+    String norma;
     String [] key = {"Имя", "Вес", "Рост", "Дата", "Пол", "Норма"};
 
     public Account(String name, String weight, String height, String date, String gender) {
@@ -32,32 +34,32 @@ public class Account {
         editor.putString(key[2], height);
         editor.putString(key[3], date);
         editor.putString(key[4], gender);
-        editor.putString(key[5], Double.toString(norma));
+        editor.putString(key[5], norma);
         editor.commit();
     }
     //высчитывем возраст
     public int OldDate()
     {
+        Calendar calendar = Calendar.getInstance();
         String [] s = date.split("\\.");
         Date date = new Date(Integer.parseInt(s[2]), Integer.parseInt(s[1]) - 1, Integer.parseInt(s[0]));
-        Date now = new Date();
-        birth = (now.getYear() + 1900) - date.getYear();
-        System.out.println(date.getYear() + " " + (now.getYear() + 1900));
-        if(date.getMonth() > now.getMonth())
+        birth = calendar.get(Calendar.YEAR)- date.getYear();
+        if(date.getMonth() > calendar.get(Calendar.MONTH) + 1)
         {
             birth--;
         }
-        if(date.getMonth() == now.getMonth())
+        if(date.getMonth() == calendar.get(Calendar.MONTH))
         {
-            if(date.getDay() > now.getDay())
+            if(date.getDay() > calendar.get(Calendar.DAY_OF_MONTH))
                 birth--;
         }
         return birth;
     }
     //высчитываем норму КБЖУ
-    public double Norma()
+    public String Norma()
     {
         double n;
+        DecimalFormat decimalFormat = new DecimalFormat(("#.##"));
         int mas = Integer.parseInt(weight);
         int hegh = Integer.parseInt(height);
         if(gender.charAt(0) == 'Ж' || gender.charAt(0) == 'ж')
@@ -67,7 +69,7 @@ public class Account {
         else {
             n = (88.362 + (13.397*mas)+(3.098*hegh)-(4.33*birth)*1.2);
         }
-        return n;
+        return decimalFormat.format(n);
     }
 
     public String Obrez(String s)

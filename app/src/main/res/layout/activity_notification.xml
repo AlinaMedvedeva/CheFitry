@@ -6,13 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".Notification">
 
-    <TextView
+    <CalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/notification_textView"
+        android:id="@+id/notification_calendar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_textview"
+        app:layout_constraintTop_toBottomOf="@+id/notification_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
