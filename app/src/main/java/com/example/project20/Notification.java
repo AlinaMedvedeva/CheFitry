@@ -55,17 +55,23 @@ public class Notification extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        cursor = sdb.rawQuery("SELECT * FROM " + CalendarDataBase.TABLE_DAY +
+                " WHERE name='Сегодня'", null);
+        cursor.moveToFirst();
+        information.setText("Потреблённых калорий:\n"+cursor.getDouble(2));
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String s = dayOfMonth + "." + (month + 1) + "." + year;
+                String s = dayOfMonth + "." + (month+1) + "." + year;
                 cursor = sdb.rawQuery("SELECT * FROM " + CalendarDataBase.TABLE_DAY+
-                        " WHERE date='" + s + "';", null);
+                       " WHERE date='" + s + "';", null);
                 if(cursor.getCount() > 0)
                 {
                     cursor.moveToFirst();
-                    information.setText(Double.toString(cursor.getDouble(2)));
+                    information.setText("Потреблённых калорий:\n"+cursor.getDouble(2));
+                }
+                else {
+                    information.setText("Информации нет");
                 }
             }
         });

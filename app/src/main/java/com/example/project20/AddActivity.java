@@ -33,6 +33,7 @@ public class AddActivity extends AppCompatActivity {
     SQLiteDatabase sdb;
     public final static String ADDKEY = "Product";
     public final static String KEY = "Hello";
+    String todayKey = "Сегодня";
     String MainKey;
     LinkedList<HashMap<String, Object>> adapterProductList = new LinkedList<>();
     @Override

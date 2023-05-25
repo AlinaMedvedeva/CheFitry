@@ -53,23 +53,6 @@ public class Registration extends AppCompatActivity {
         women = findViewById(R.id.women_gender);
 
 
-        weight.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         calendarDataBase = new CalendarDataBase(this);
         try{
             calendarDataBase.updateDataBase();
@@ -99,8 +82,17 @@ public class Registration extends AppCompatActivity {
     }
 
     public void toRegistration(View view) {
-        if(select)
-        {
+         if (name.getText().toString().equals("")||name.getText().toString().charAt(0) == ' ') {
+            Toast.makeText(this, "Вы не указали имя", Toast.LENGTH_SHORT).show();
+        } else if (weight.getText().toString().equals("")||weight.getText().toString().charAt(0) == ' ') {
+            Toast.makeText(this, "Вы не указали вес", Toast.LENGTH_SHORT).show();
+        } else if (height.getText().toString().equals("")||height.getText().toString().charAt(0) == ' ') {
+            Toast.makeText(this, "Вы не указали рост", Toast.LENGTH_SHORT).show();
+        }else if(!select)
+         {
+             Toast.makeText(this, "Вы не указали пол", Toast.LENGTH_SHORT).show();
+         }
+         else {
             account = new Account(name.getText().toString(),
                     weight.getText().toString(), height.getText().toString(),
                     birth, gender);
@@ -109,9 +101,6 @@ public class Registration extends AppCompatActivity {
             Intent i = new Intent(Registration.this, MainActivity.class);
             startActivity(i);
             finish();
-        }
-        else {
-            Toast.makeText(this, "Вы не указали пол", Toast.LENGTH_SHORT).show();
         }
     }
 

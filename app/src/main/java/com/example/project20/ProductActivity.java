@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.example.project20.OpenHelpers.CalendarDataBase;
 import com.example.project20.OpenHelpers.ProductDataBase;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -25,9 +28,10 @@ public class ProductActivity extends AppCompatActivity {
     ProductDataBase productDataBase;
     String MainKEY, ProductName;
     TextView name, belki, jir, uglevod, kalor;
-    Double [] ProductParametrs = new Double[4];
+    Double[] ProductParametrs = new Double[4];
     EditText volume;
-    static final String [] key = {"belki", "jir", "uglevod", "kalori"};
+    static final String[] key = {"belki", "jir", "uglevod", "kalori"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,30 +47,28 @@ public class ProductActivity extends AppCompatActivity {
         volume = findViewById(R.id.edit);
 
         calendarDataBase = new CalendarDataBase(this);
-        try{
+        try {
             calendarDataBase.updateDataBase();
         } catch (IOException e) {
             throw new Error("UnableToUpdateDatabase");
         }
 
-        try{
+        try {
             AccountSDB = calendarDataBase.getWritableDatabase();
-        }catch (SQLException mSQLException)
-        {
+        } catch (SQLException mSQLException) {
             throw mSQLException;
         }
 
         productDataBase = new ProductDataBase(this);
-        try{
+        try {
             productDataBase.updateDataBase();
         } catch (IOException e) {
             throw new Error("UnableToUpdateDatabase");
         }
 
-        try{
+        try {
             ProductSDB = productDataBase.getWritableDatabase();
-        }catch (SQLException mSQLException)
-        {
+        } catch (SQLException mSQLException) {
             throw mSQLException;
         }
 
@@ -76,25 +78,47 @@ public class ProductActivity extends AppCompatActivity {
                 (query, null);
         cursor.moveToFirst();
         for (int i = 0; i < 4; i++) {
-            ProductParametrs[i] = cursor.getDouble(i+1);
+            ProductParametrs[i] = cursor.getDouble(i + 1);
         }
-        belki.setText("Белки: " + ProductParametrs[0]);
-        jir.setText("Жиры: " + ProductParametrs[1]);
-        uglevod.setText("Углеводы: " + ProductParametrs[2]);
-        kalor.setText("Калории: " + ProductParametrs[3]);
+        belki.setText(ProductParametrs[0].toString());
+        jir.setText(ProductParametrs[1].toString());
+        uglevod.setText(ProductParametrs[2].toString());
+        kalor.setText(ProductParametrs[3].toString());
+        volume.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (volume.getText().toString().length() != 0) {
+                    DecimalFormat decimalFormat = new DecimalFormat(("#.##"));
+                    double koeff = Double.parseDouble(volume.getText().toString());
+                    belki.setText(decimalFormat.format(ProductParametrs[0]/100 * koeff));
+                    jir.setText(decimalFormat.format(ProductParametrs[1]/100 * koeff));
+                    uglevod.setText(decimalFormat.format(ProductParametrs[2]/100 * koeff));
+                    kalor.setText(decimalFormat.format(ProductParametrs[3]/100 * koeff));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void AddProduct(View view) {
-        Double koeff = Double.parseDouble(String.valueOf(volume.getText()))/100;
+        Double koeff = Double.parseDouble(String.valueOf(volume.getText())) / 100;
         String query1 = "SELECT * FROM ";
         String table = "";
-        Double [] info = new Double[4];
+        Double[] info = new Double[4];
         //0 - belki
         //1 - jir
         //2 - uglevod
         //3 - kalor
-        switch (MainKEY)
-        {
+        switch (MainKEY) {
             case "Завтрак":
                 query1 += "breakfast;";
                 table += "breakfast";
@@ -115,7 +139,7 @@ public class ProductActivity extends AppCompatActivity {
             cursor.moveToNext();
         }
         for (int i = 0; i < 4; i++) {
-            info[i] += ProductParametrs[i]*koeff;
+            info[i] += ProductParametrs[i] * koeff;
         }
         for (int i = 0; i < 4; i++) {
             String where = "name ='" + key[i] + "'";
@@ -123,6 +147,13 @@ public class ProductActivity extends AppCompatActivity {
             updateValues.put("value", info[i]);
             AccountSDB.update(table, updateValues, where, null);
         }
+        cursor = AccountSDB.rawQuery("SELECT * FROM days WHERE name='Сегодня';", null);
+        cursor.moveToFirst();
+        ContentValues dayValues= new ContentValues();
+        double dayKalor = cursor.getDouble(2) + ProductParametrs[3];
+        dayValues.put("kalori", dayKalor);
+        String where = "name ='Сегодня'";
+        AccountSDB.update(CalendarDataBase.TABLE_DAY, dayValues, where, null);
         Intent i = new Intent(ProductActivity.this, MainActivity.class);
         cursor.close();
         startActivity(i);

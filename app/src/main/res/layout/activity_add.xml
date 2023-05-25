@@ -5,25 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddActivity">
+    tools:context=".AddActivity"
+    android:background="@color/purple_500">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/search"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Введите название"
+        android:background="@drawable/edittext_background"
+        android:drawableEnd="@drawable/search_icon"
+        android:layout_margin="15dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить новый продукт"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:backgroundTint="#77038A"
+        android:id="@+id/addProducts"
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        android:onClick="AddNewProduct"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_products"
-        app:layout_constraintTop_toBottomOf="@+id/search"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:textSize="24sp"
-        android:id="@+id/addProducts"
-        app:layout_constraintTop_toBottomOf="@+id/list_products"
-        android:onClick="AddNewProduct"/>
+        app:layout_constraintTop_toBottomOf="@+id/addProducts"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

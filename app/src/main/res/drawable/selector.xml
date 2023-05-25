@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_selected="true"
-        android:drawable="@color/purple_500"
+        android:drawable="@color/important"
         android:color="@android:color/white" />
     <item
         android:state_selected="false"

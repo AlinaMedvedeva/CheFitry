@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         //если нет данных о человеке, переходим в регистрацию
         if(proverka != "Нет")
         {
-            logo.setText("Добро пожаловать" + "\n" + sharedPreferences.getString("Имя", "Нет"));
+            logo.setText("Welcome\n" + sharedPreferences.getString("Имя", "Нет"));
         }
         Animation logoAnim =
                 AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -48,6 +48,7 @@ public class SplashActivity extends AppCompatActivity {
                     i = new Intent(SplashActivity.this, MainActivity.class);
                 }
                 startActivity(i);
+                finish();
             }
 
             @Override

@@ -10,8 +10,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.project20.OpenHelpers.CalendarDataBase;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     public static final String KEY = "Hello";
+    ProgressBar kalorProgressBar;
+    int koeff_kalor = 0;
     TextView norma;
     CalendarDataBase myDataBase;
     SQLiteDatabase sdb;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     boolean changeDate = false;
     String [] key = {"Сегодня", "Вчера", "Позавчера"};
     Calendar calendar;
+    int i = 0;
     String [] keys = {"belki", "jir", "uglevod", "kalori"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +72,9 @@ public class MainActivity extends AppCompatActivity {
         String date = cursor.getString(1);
         if(!date.equals(TodayDate))
             changeDate = true;
-        for (int i = 0; i < 3; i++) {
-            cursor = sdb.rawQuery("SELECT * FROM " + CalendarDataBase.TABLES_NAME[i] + ";",
-                    null);
-            cursor.moveToLast();
-            todayKalor += cursor.getDouble(1);
-        }
+        cursor = sdb.rawQuery("SELECT * FROM days WHERE name='Сегодня'", null);
+        cursor.moveToFirst();
+        todayKalor += cursor.getDouble(2);
         if(changeDate)
         {
             //сдвинуть вчера на позавчера
@@ -104,12 +106,22 @@ public class MainActivity extends AppCompatActivity {
                             where, null);
                 }
             }
+            ContentValues todayValues = new ContentValues();
+            todayValues.put("date", TodayDate);
+            where = "name='" + key[0] + "'";
+            sdb.update(CalendarDataBase.TABLE_DAY, todayValues,
+                    where, null);
             todayKalor = 0.0;
         }
-        cursor.close();
-        norma.setText(todayKalor + "/" + sharedPreferences.getString("Норма", "Нет"));
+        kalorProgressBar = findViewById(R.id.progress_bar);
+        Double norma_person = Double.parseDouble(sharedPreferences.getString("Норма", "Нет").
+                replace(',', '.'));
+        koeff_kalor = (int)((todayKalor*100)/norma_person);
+        norma.setText(todayKalor + "/" + norma_person);
+
         bottomNavigationView = findViewById(R.id.nav);
         bottomNavigationView.setSelectedItemId(R.id.homeitem);
+
         //переключаемся между активностями
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -132,6 +144,51 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(i <= koeff_kalor && i != 0)
+                {
+                    kalorProgressBar.setProgress(i);
+                    i++;
+                    handler.postDelayed(this, 200);
+                }
+                else {
+                    handler.removeCallbacks(this);
+                    i = 0;
+                }
+            }
+        }, 200);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        cursor = sdb.rawQuery("SELECT * FROM days WHERE name='Сегодня'", null);
+        cursor.moveToFirst();
+        todayKalor += cursor.getDouble(2);
+        Double norma_person = Double.parseDouble(sharedPreferences.getString("Норма", "Нет").
+                replace(',', '.'));
+        koeff_kalor = (int)((todayKalor*100)/norma_person);
+        norma.setText(todayKalor + "/" + norma_person);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(i <= koeff_kalor)
+                {
+                    kalorProgressBar.setProgress(i);
+                    i++;
+                    handler.postDelayed(this, 200);
+                }
+                else {
+                    handler.removeCallbacks(this);
+                    i = 0;
+                }
+            }
+        }, 200);
     }
 
     public void addBreakfast(View view) {

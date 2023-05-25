@@ -35,11 +35,17 @@ public class DashBoard extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.nav);
         bottomNavigationView.setSelectedItemId(R.id.dashboard);
 
-        name.setText("Имя: " + sharedPreferences.getString("Имя", "НЕТ"));
-        weight.setText("Вес: " + sharedPreferences.getString("Вес", "НЕТ"));
-        height.setText("Рост: " + sharedPreferences.getString("Рост", "НЕТ"));
-        date.setText("Дата рождения: " + sharedPreferences.getString("Дата", "НЕТ"));
-        gender.setText("Пол: " + sharedPreferences.getString("Пол", "НЕТ"));
+        name.setText(sharedPreferences.getString("Имя", "НЕТ"));
+        weight.setText(sharedPreferences.getString("Вес", "НЕТ"));
+        height.setText(sharedPreferences.getString("Рост", "НЕТ"));
+        gender.setText(sharedPreferences.getString("Пол", "НЕТ"));
+        if(sharedPreferences.getString("Пол", "НЕТ").equals("Ж"))
+        {
+            gender.setText("Женский");
+        }
+        else gender.setText("Мужской");
+        String s[] = sharedPreferences.getString("Дата", "НЕТ").split("\\.");
+        date.setText(s[0] + " " + getMonthFormat(Integer.parseInt(s[1])) + " " + s[2] + " года");
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -64,5 +70,24 @@ public class DashBoard extends AppCompatActivity {
     public void Edit(View view) {
         Intent i = new Intent(DashBoard.this, EditActivity.class);
         startActivity(i);
+    }
+
+    private String getMonthFormat(int month) {
+        switch (month)
+        {
+            case 1: return "ЯНВ";
+            case 2: return "ФЕВ";
+            case 3: return "МАР";
+            case 4: return "АПР";
+            case 5: return "МАЙ";
+            case 6: return "ИЮН";
+            case 7: return "ИЮЛ";
+            case 8: return "АВГ";
+            case 9: return "СЕН";
+            case 10: return "ОКТ";
+            case 11: return "НОЯ";
+            case 12: return "ДЕК";
+        }
+        return "ЯНВ";
     }
 }
