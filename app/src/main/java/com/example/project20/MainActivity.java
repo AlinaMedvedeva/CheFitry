@@ -152,14 +152,14 @@ public class MainActivity extends AppCompatActivity {
                 {
                     kalorProgressBar.setProgress(i);
                     i++;
-                    handler.postDelayed(this, 200);
+                    handler.postDelayed(this, 50);
                 }
                 else {
                     handler.removeCallbacks(this);
                     i = 0;
                 }
             }
-        }, 200);
+        }, 50);
     }
 
     @Override
@@ -181,14 +181,14 @@ public class MainActivity extends AppCompatActivity {
                 {
                     kalorProgressBar.setProgress(i);
                     i++;
-                    handler.postDelayed(this, 200);
+                    handler.postDelayed(this, 50);
                 }
                 else {
                     handler.removeCallbacks(this);
                     i = 0;
                 }
             }
-        }, 200);
+        }, 50);
     }
 
     public void addBreakfast(View view) {
