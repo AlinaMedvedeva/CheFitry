@@ -150,7 +150,7 @@ public class ProductActivity extends AppCompatActivity {
         cursor = AccountSDB.rawQuery("SELECT * FROM days WHERE name='Сегодня';", null);
         cursor.moveToFirst();
         ContentValues dayValues= new ContentValues();
-        double dayKalor = cursor.getDouble(2) + ProductParametrs[3];
+        double dayKalor = cursor.getDouble(2) + info[3];
         dayValues.put("kalori", dayKalor);
         String where = "name ='Сегодня'";
         AccountSDB.update(CalendarDataBase.TABLE_DAY, dayValues, where, null);
