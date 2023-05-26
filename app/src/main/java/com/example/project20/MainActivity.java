@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
         Double norma_person = Double.parseDouble(sharedPreferences.getString("Норма", "Нет").
                 replace(',', '.'));
         koeff_kalor = (int)((todayKalor*100)/norma_person);
-        norma.setText(todayKalor + "/" + norma_person);
+        String s = todayKalor + "/" + norma_person;
+        norma.setText(s);
 
         bottomNavigationView = findViewById(R.id.nav);
         bottomNavigationView.setSelectedItemId(R.id.homeitem);
@@ -144,22 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(i <= koeff_kalor && i != 0)
-                {
-                    kalorProgressBar.setProgress(i);
-                    i++;
-                    handler.postDelayed(this, 50);
-                }
-                else {
-                    handler.removeCallbacks(this);
-                    i = 0;
-                }
-            }
-        }, 50);
     }
 
     @Override
@@ -168,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         cursor = sdb.rawQuery("SELECT * FROM days WHERE name='Сегодня'", null);
         cursor.moveToFirst();
+        todayKalor = 0.0;
         todayKalor += cursor.getDouble(2);
         Double norma_person = Double.parseDouble(sharedPreferences.getString("Норма", "Нет").
                 replace(',', '.'));
